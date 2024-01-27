@@ -1,3 +1,5 @@
+import "./App.css";
+
 import React, { useState, useRef } from "react";
 
 const ImageUpload = () => {
@@ -47,28 +49,50 @@ const ImageUpload = () => {
   };
   return (
     <div>
-      <div>
-        <button onClick={handleCaptureClick}>Use Webcam</button>
+      <div className="btndiv" style={{}}>
+        <button
+          display="block"
+          style={{
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginBottom: "10px",
+            padding: "0 8px",
+          }}
+          className="button"
+          onClick={handleCaptureClick}
+        >
+          Use Webcam
+        </button>
         <p>or</p>
         <input
+          style={{
+            //marginLeft: "43%",
+            //marginRight: "auto",
+            marginTop: "10px",
+          }}
+          className="button"
           type="file"
           accept="image/*"
           capture="camera"
           onChange={handleImageChange}
-          style={{
-            marginLeft: "65px",
-          }}
+          display="block"
         />
       </div>
       {image && (
         <img
-          style={{ marginTop: "30px", width: "216", height: "384px" }}
+          className="imagrep"
+          style={{
+            marginTop: "30px",
+            width: "216",
+            height: "384px",
+          }}
           src={image}
           alt="Uploaded"
         />
       )}
       <video
         ref={videoRef}
+        className="videorep"
         style={{
           width: "216",
           height: "384px",
@@ -80,6 +104,7 @@ const ImageUpload = () => {
       />
       <button
         onClick={handleSnap}
+        className="snapbtn"
         style={{
           marginLeft: "auto",
           marginRight: "auto",

@@ -12,7 +12,7 @@ app.use(cors());
 app.use("/public", express.static("public"));
 
 app.post("/process", async (req, res) => {
-  console.log(req);
+  //onsole.log(req);
   console.log("Request received");
   // //if (!req.files.image) {
   //   console.log("unpacking failed");
@@ -40,10 +40,11 @@ app.post("/process", async (req, res) => {
   //   base64Image.toString("base64");
   try {
     //console.log(b644);
+
     var chat = await runCompletion(req.body.image);
-    console.log(chat);
+    //console.log(chat);
     console.log(chat.choices[0].message.content);
-    res.send(chat);
+    res.send(chat.choices[0].message.content);
   } catch (error) {
     console.error("Error in runCompletion:", error);
     res.status(500).send("Error processing the image");

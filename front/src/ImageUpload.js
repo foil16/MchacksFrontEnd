@@ -58,22 +58,58 @@ const ImageUpload = () => {
     }
   };
   const [Picpresent, setPicpresent] = useState(false);
+
   const handleSend = async () => {
     const img = document.getElementById("img");
     const imageUrl = img.src;
 
+    const formatm = imageUrl.match(/^data:image\/(png|jpeg|gif|webp);base64,/);
+    if (!formatm) {
+      console.error("Unsupported image format.");
+      return;
+    }
+
     const blob = await fetch(imageUrl).then((response) => response.blob());
+    var base64data;
+    var reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onload = async (event) => {
+      // Create an HTMLImageElement and set its source to the data URL
+      const imgElement = new Image();
+      imgElement.src = event.target.result;
 
-    let formData = new FormData();
-    formData.append("image", blob, "image.png");
+      // Create a canvas element
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
 
-    const iURL = "http://127.0.0.1:2900/process";
+      // Set canvas dimensions to match the image
+      canvas.width = imgElement.width;
+      canvas.height = imgElement.height;
 
-    var responseFile = await fetch(iURL, {
-      method: "POST",
-      body: formData,
-    });
-    console.log(formData);
+      // Draw the image on the canvas in JPEG format
+      context.drawImage(imgElement, 0, 0);
+
+      // Convert the canvas data to a JPEG base64-encoded string
+      const jpegImageUrl = canvas.toDataURL("image/jpeg", 0.8); // 0.8 is the quality (adjust as needed)
+
+      // Now, you can send `jpegImageUrl` to the server
+      let formData = new FormData();
+      formData.append("image", jpegImageUrl);
+
+      const iURL = "http://127.0.0.1:2900/process";
+
+      try {
+        const responseFile = await fetch(iURL, {
+          method: "POST",
+          body: formData,
+        });
+
+        console.log("Request sent");
+        // Handle the response from the server here
+      } catch (error) {
+        console.error("Error sending the image:", error);
+      }
+    };
 
     console.log("request sent");
   };

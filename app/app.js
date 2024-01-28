@@ -13,13 +13,14 @@ app.use("/public", express.static("public"));
 app.post("/process", async (req, res) => {
   console.log("Request received");
   if (!req.files.image) {
+    console.log("unpacking failed");
     return res.status(400).send("No files were uploaded.");
   }
   const uploadedFile = req.files.image;
   console.log("success");
   console.log(req.files.image);
   var chat = await runCompletion(uploadedFile);
-  res.send({ fileName: uploadedFile.name, fileSize: uploadedFile.size });
+  res.send(chat);
 });
 
 app.listen(port, () => {

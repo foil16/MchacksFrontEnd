@@ -15,7 +15,7 @@ async function runCompletion(imagelinke) {
           {
             type: "image_url",
             image_url: {
-              url: "data:image/jpeg;base64," + { imagelinke },
+              url: imagelinke,
             },
           },
         ],

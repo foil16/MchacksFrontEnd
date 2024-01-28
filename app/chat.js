@@ -4,7 +4,7 @@ const openai = new OpenAI({
   apiKey: "REDACTED_OPENAI_KEY",
 });
 
-async function runCompletion(imagelink) {
+async function runCompletion(imagelinke) {
   const response = await openai.chat.completions.create({
     model: "gpt-4-vision-preview",
     messages: [
@@ -15,7 +15,7 @@ async function runCompletion(imagelink) {
           {
             type: "image_url",
             image_url: {
-              url: imagelink,
+              url: "data:image/jpeg;base64," + { imagelinke },
             },
           },
         ],

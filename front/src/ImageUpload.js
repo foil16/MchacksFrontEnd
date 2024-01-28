@@ -48,7 +48,7 @@ const ImageUpload = () => {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-      const imageUrl = canvas.toDataURL("image/png");
+      const imageUrl = canvas.toDataURL("image/jpeg", 0.8);
       setImage(imageUrl);
       const stream = video.srcObject;
       const tracks = stream.getTracks();
@@ -58,15 +58,18 @@ const ImageUpload = () => {
     }
   };
   const [Picpresent, setPicpresent] = useState(false);
+  const [msgPresent, setmsgPresent] = useState(false);
 
   const handleSend = async () => {
     const img = document.getElementById("img");
     const imageUrl = img.src;
+    var message;
 
     const blob = await fetch(imageUrl).then((response) => response.blob());
     var base64data;
     var reader = new FileReader();
     reader.readAsDataURL(blob);
+    //console.log(blob);
     reader.onload = async (event) => {
       const imgElement = new Image();
       imgElement.src = event.target.result;
@@ -91,14 +94,21 @@ const ImageUpload = () => {
           method: "POST",
           body: formData,
         });
-
+        const tbox = document.getElementById("msg");
+        console.log(responseFile);
+        message = responseFile;
+        tbox.innerText = await message.text();
         console.log("Request sent");
+        //console.log(await message.text());
 
         // Handle the response from the server here
       } catch (error) {
         console.error("Error sending the image:", error);
       }
     };
+    setmsgPresent(true);
+
+    //console.log(awaimessage);
   };
   return (
     <div>
@@ -144,6 +154,12 @@ const ImageUpload = () => {
           alt="Uploaded"
         />
       )}
+      <p
+        id="msg"
+        style={{
+          display: msgPresent ? "block" : "none",
+        }}
+      ></p>
       <video
         ref={videoRef}
         className="videorep"

@@ -2,6 +2,17 @@
   margin: 0;
   padding: 0;
 }
+
+#msg {
+  border-style: solid;
+  margin-left: 70%;
+  margin-right: 5%;
+  height: 500px;
+  margin-top: -475px;
+  border-color: black;
+  background-color: white;
+  border-radius: 20px;
+}
 .App {
   text-align: center;
   background-image: url("../public/IMG_2771.jpg");

@@ -10,6 +10,15 @@ const ImageUpload = () => {
       let img = e.target.files[0];
       setShowVideo(false);
       setImage(URL.createObjectURL(img));
+      setPicpresent(true);
+      const video = videoRef.current;
+      if (video) {
+        const stream = video.srcObject;
+        if (stream) {
+          const tracks = stream.getTracks();
+          tracks.forEach((track) => track.stop());
+        }
+      }
     }
   };
   const [showVideo, setShowVideo] = useState(false);
@@ -20,7 +29,7 @@ const ImageUpload = () => {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       setShowVideo(true);
       setImage(false);
-      console.log(videoRef.current);
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.play();
@@ -45,7 +54,28 @@ const ImageUpload = () => {
       const tracks = stream.getTracks();
       tracks.forEach((track) => track.stop());
       setShowVideo(false);
+      setPicpresent(true);
     }
+  };
+  const [Picpresent, setPicpresent] = useState(false);
+  const handleSend = async () => {
+    const img = document.getElementById("img");
+    const imageUrl = img.src;
+
+    const blob = await fetch(imageUrl).then((response) => response.blob());
+
+    let formData = new FormData();
+    formData.append("image", blob, "image.png");
+
+    const iURL = "http://127.0.0.1:2900/process";
+
+    var responseFile = await fetch(iURL, {
+      method: "POST",
+      body: formData,
+    });
+    console.log(formData);
+
+    console.log("request sent");
   };
   return (
     <div>
@@ -80,6 +110,7 @@ const ImageUpload = () => {
       </div>
       {image && (
         <img
+          id="img"
           className="imagrep"
           style={{
             marginTop: "30px",
@@ -113,6 +144,18 @@ const ImageUpload = () => {
         }}
       >
         Snap
+      </button>
+      <button
+        className="snapbtn"
+        onClick={handleSend}
+        style={{
+          marginLeft: "auto",
+          marginRight: "auto",
+          marginTop: "30px",
+          display: Picpresent ? "block" : "none",
+        }}
+      >
+        Send
       </button>
       <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
     </div>

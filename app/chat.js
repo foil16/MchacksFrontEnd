@@ -1,7 +1,7 @@
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 async function runCompletion(imagelinke) {
@@ -13,7 +13,7 @@ async function runCompletion(imagelinke) {
         content: [
           {
             type: "text",
-            text: "You are a chef. You know every recipe on earth. Give me 5 different dishes I can make with the ingredients in this picture. Do not give me the entire recipe. Just the name and the ingredient necessary for the recipe. If the image does not have any ingredients answer with Try again please",
+            text: "You are a chef. You know every recipe on earth. Give me 5 different dishes I can make with the ingredients in this picture. Do not give me the entire recipe. Just the name and the ingredient necessary for the recipe.",
           },
           {
             type: "image_url",

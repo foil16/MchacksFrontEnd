@@ -95,9 +95,13 @@ const ImageUpload = () => {
           body: formData,
         });
         const tbox = document.getElementById("msg");
+        if (responseFile.status != 200) {
+        }
         console.log(responseFile);
         message = responseFile;
+
         tbox.innerText = await message.text();
+
         console.log("Request sent");
         //console.log(await message.text());
 
@@ -149,6 +153,8 @@ const ImageUpload = () => {
             marginTop: "30px",
             width: "216",
             height: "384px",
+            objectFit: "cover",
+            marginLeft: image ? "-200px" : "0px",
           }}
           src={image}
           alt="Uploaded"
@@ -158,6 +164,11 @@ const ImageUpload = () => {
         id="msg"
         style={{
           display: msgPresent ? "block" : "none",
+          paddingTop: "35px",
+          paddingLeft: "10px",
+          paddingRight: "10px",
+          fontWeight: "bold",
+          overflow: "scroll",
         }}
       ></p>
       <video

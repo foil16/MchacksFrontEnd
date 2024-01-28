@@ -1,7 +1,7 @@
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 async function runCompletion(imagelinke) {
@@ -15,7 +15,7 @@ async function runCompletion(imagelinke) {
           {
             type: "image_url",
             image_url: {
-              url: "data:image/jpeg;base64," + { imagelinke },
+              url: imagelinke,
             },
           },
         ],

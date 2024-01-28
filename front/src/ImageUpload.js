@@ -63,36 +63,24 @@ const ImageUpload = () => {
     const img = document.getElementById("img");
     const imageUrl = img.src;
 
-    const formatm = imageUrl.match(/^data:image\/(png|jpeg|gif|webp);base64,/);
-    if (!formatm) {
-      console.error("Unsupported image format.");
-      return;
-    }
-
     const blob = await fetch(imageUrl).then((response) => response.blob());
     var base64data;
     var reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onload = async (event) => {
-      // Create an HTMLImageElement and set its source to the data URL
       const imgElement = new Image();
       imgElement.src = event.target.result;
 
-      // Create a canvas element
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
 
-      // Set canvas dimensions to match the image
       canvas.width = imgElement.width;
       canvas.height = imgElement.height;
 
-      // Draw the image on the canvas in JPEG format
       context.drawImage(imgElement, 0, 0);
 
-      // Convert the canvas data to a JPEG base64-encoded string
-      const jpegImageUrl = canvas.toDataURL("image/jpeg", 0.8); // 0.8 is the quality (adjust as needed)
+      const jpegImageUrl = canvas.toDataURL("image/jpeg", 0.8);
 
-      // Now, you can send `jpegImageUrl` to the server
       let formData = new FormData();
       formData.append("image", jpegImageUrl);
 
@@ -105,13 +93,12 @@ const ImageUpload = () => {
         });
 
         console.log("Request sent");
+
         // Handle the response from the server here
       } catch (error) {
         console.error("Error sending the image:", error);
       }
     };
-
-    console.log("request sent");
   };
   return (
     <div>

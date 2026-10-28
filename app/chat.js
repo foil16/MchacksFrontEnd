@@ -1,12 +1,13 @@
+require("dotenv").config();
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: "REDACTED_OPENAI_KEY",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 async function runCompletion(imagelinke) {
   const response = await openai.chat.completions.create({
-    model: "gpt-4-vision-preview",
+    model: process.env.OPENAI_MODEL || "gpt-4o",
     messages: [
       {
         role: "user",
